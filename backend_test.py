@@ -276,7 +276,7 @@ Responsibilities:
     def test_valid_docx_upload(self):
         """Test API with valid DOCX file"""
         try:
-            files = {'resume': ('john_doe_resume.docx', self.create_test_docx_content(), 'application/vnd.openxmlformats-officedocument.wordprocessingml.document')}
+            files = {'resume': ('john_doe_resume.docx', self.create_minimal_docx(), 'application/vnd.openxmlformats-officedocument.wordprocessingml.document')}
             data = {
                 'job_description': 'Frontend Developer position requiring React and JavaScript skills.'
             }
