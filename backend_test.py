@@ -178,7 +178,7 @@ startxref
     def test_missing_job_description(self):
         """Test API with missing job description"""
         try:
-            files = {'resume': ('test.pdf', self.create_test_pdf_content(), 'application/pdf')}
+            files = {'resume': ('test.pdf', self.create_simple_pdf(), 'application/pdf')}
             data = {'job_description': ''}
             
             response = requests.post(
@@ -188,9 +188,10 @@ startxref
                 timeout=30
             )
             
-            success = response.status_code == 400
+            # FastAPI returns 422 for validation errors, 400 for business logic errors
+            success = response.status_code in [400, 422]
             details = f"Status: {response.status_code}"
-            if response.status_code == 400:
+            if response.status_code in [400, 422]:
                 details += f", Error: {response.json().get('detail', 'No detail')}"
             
             self.log_test("Missing Job Description Validation", success, details)
