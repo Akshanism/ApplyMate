@@ -40,34 +40,115 @@ class ApplyMateAPITester:
             self.log_test("API Root Endpoint", False, str(e))
             return False
 
-    def create_test_pdf_content(self):
-        """Create a simple test PDF content (mock)"""
-        # For testing purposes, we'll create a simple text file to simulate PDF
-        return b"""John Doe
-Software Engineer
-Email: john.doe@email.com
-Phone: (555) 123-4567
+    def create_simple_pdf(self):
+        """Create a minimal valid PDF for testing"""
+        # This creates a minimal but valid PDF structure
+        pdf_content = b"""%PDF-1.4
+1 0 obj
+<<
+/Type /Catalog
+/Pages 2 0 R
+>>
+endobj
 
-EXPERIENCE:
-Software Engineer at TechCorp (2020-2023)
-- Developed web applications using React and Node.js
-- Implemented REST APIs and database integration
-- Collaborated with cross-functional teams
+2 0 obj
+<<
+/Type /Pages
+/Kids [3 0 R]
+/Count 1
+>>
+endobj
 
-SKILLS:
-- Programming: Python, JavaScript, React
-- Databases: MongoDB, PostgreSQL
-- Tools: Git, Docker, AWS
+3 0 obj
+<<
+/Type /Page
+/Parent 2 0 R
+/Resources <<
+/Font <<
+/F1 4 0 R
+>>
+>>
+/MediaBox [0 0 612 792]
+/Contents 5 0 R
+>>
+endobj
 
-EDUCATION:
-Bachelor of Computer Science
-State University (2016-2020)
-"""
+4 0 obj
+<<
+/Type /Font
+/Subtype /Type1
+/BaseFont /Times-Roman
+>>
+endobj
 
-    def create_test_docx_content(self):
-        """Create test DOCX content (mock)"""
-        # Same content as PDF but in bytes format for DOCX simulation
-        return self.create_test_pdf_content()
+5 0 obj
+<<
+/Length 44
+>>
+stream
+BT
+/F1 12 Tf
+72 720 Td
+(John Doe - Software Engineer) Tj
+ET
+endstream
+endobj
+
+xref
+0 6
+0000000000 65535 f 
+0000000010 00000 n 
+0000000053 00000 n 
+0000000125 00000 n 
+0000000348 00000 n 
+0000000445 00000 n 
+trailer
+<<
+/Size 6
+/Root 1 0 R
+>>
+startxref
+538
+%%EOF"""
+        return pdf_content
+
+    def create_minimal_docx(self):
+        """Create a minimal DOCX structure for testing"""
+        import zipfile
+        import io
+        
+        # Create in-memory ZIP file (DOCX is essentially a ZIP)
+        zip_buffer = io.BytesIO()
+        
+        with zipfile.ZipFile(zip_buffer, 'w', zipfile.ZIP_DEFLATED) as zip_file:
+            # Minimal content types
+            zip_file.writestr('[Content_Types].xml', 
+                '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>'
+                '<Types xmlns="http://schemas.openxmlformats.org/package/2006/content-types">'
+                '<Default Extension="rels" ContentType="application/vnd.openxmlformats-package.relationships+xml"/>'
+                '<Default Extension="xml" ContentType="application/xml"/>'
+                '<Override PartName="/word/document.xml" ContentType="application/vnd.openxmlformats-officedocument.wordprocessingml.document.main+xml"/>'
+                '</Types>')
+            
+            # App properties
+            zip_file.writestr('_rels/.rels',
+                '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>'
+                '<Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships">'
+                '<Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument" Target="word/document.xml"/>'
+                '</Relationships>')
+            
+            # Main document
+            zip_file.writestr('word/document.xml',
+                '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>'
+                '<w:document xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main">'
+                '<w:body>'
+                '<w:p><w:r><w:t>John Doe - Software Engineer</w:t></w:r></w:p>'
+                '<w:p><w:r><w:t>Experience: React, Node.js, Python</w:t></w:r></w:p>'
+                '</w:body>'
+                '</w:document>')
+        
+        zip_buffer.seek(0)
+        return zip_buffer.read()
 
     def test_invalid_file_type(self):
         """Test API with invalid file type"""
