@@ -1,0 +1,145 @@
+{
+  "project_name": "ApplyMate",
+  "design_philosophy": {
+    "name": "Calm Focus (Opal Dark)",
+    "description": "A quiet, intentional, and trustworthy aesthetic inspired by the Opal app. It minimizes visual noise to create a sense of confidence and flow.",
+    "core_principles": [
+      "Deep Focus: Use deep charcoal and dark blue tones, never pure black, to reduce eye strain.",
+      "Soft Light: Use subtle gradients and inner glows to simulate light hitting a matte surface.",
+      "Intentional Spacing: 3x standard spacing. The interface should feel 'breathable'.",
+      "No Clutter: Only show what is necessary. One action at a time."
+    ]
+  },
+  "typography": {
+    "font_family": {
+      "heading": "Manrope, sans-serif",
+      "body": "Inter, sans-serif",
+      "mono": "JetBrains Mono, monospace"
+    },
+    "scale": {
+      "h1": "text-4xl md:text-5xl font-semibold tracking-tight",
+      "h2": "text-2xl md:text-3xl font-medium tracking-tight text-white/90",
+      "body": "text-base md:text-lg text-slate-300 leading-relaxed",
+      "small": "text-sm text-slate-400 font-medium"
+    },
+    "imports": [
+      "@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Manrope:wght@500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');"
+    ]
+  },
+  "colors": {
+    "background": {
+      "default": "#0F1115",
+      "paper": "#161920",
+      "surface": "#1C2029",
+      "subtle": "#232833"
+    },
+    "text": {
+      "primary": "#F3F4F6",
+      "secondary": "#9CA3AF",
+      "muted": "#6B7280"
+    },
+    "primary": {
+      "main": "#818CF8",
+      "hover": "#6366F1",
+      "glow": "rgba(129, 140, 248, 0.5)"
+    },
+    "accent": {
+      "teal": "#2DD4BF",
+      "purple": "#C084FC"
+    },
+    "border": {
+      "default": "rgba(255, 255, 255, 0.06)",
+      "active": "rgba(129, 140, 248, 0.3)"
+    }
+  },
+  "tailwind_config_extension": {
+    "colors": {
+      "opal": {
+        "bg": "#0F1115",
+        "surface": "#161920",
+        "border": "rgba(255, 255, 255, 0.08)",
+        "primary": "#818CF8",
+        "glow": "rgba(129, 140, 248, 0.15)"
+      }
+    },
+    "backgroundImage": {
+      "opal-gradient": "linear-gradient(135deg, #161920 0%, #0F1115 100%)",
+      "glow-gradient": "radial-gradient(circle at top center, rgba(129, 140, 248, 0.08), transparent 40%)"
+    },
+    "boxShadow": {
+      "glass": "0 8px 32px 0 rgba(0, 0, 0, 0.2)",
+      "neon": "0 0 20px rgba(129, 140, 248, 0.15)"
+    }
+  },
+  "layout_structure": {
+    "container": "max-w-2xl mx-auto px-6 py-12 md:py-20 min-h-screen flex flex-col",
+    "section_spacing": "space-y-12",
+    "component_spacing": "space-y-6"
+  },
+  "components": {
+    "Hero": {
+      "specs": "Center aligned. Minimalist. Title + Subtitle + Soft glow background.",
+      "classes": "text-center relative z-10 mb-16"
+    },
+    "FileUpload": {
+      "specs": "Large drop zone. Dashed border (opacity 20%). Hover state increases border opacity and glows.",
+      "classes": "border-2 border-dashed border-white/10 hover:border-opal-primary/50 hover:bg-white/5 transition-all duration-300 rounded-2xl p-10 text-center cursor-pointer group"
+    },
+    "JobInput": {
+      "specs": "Textarea with glass background. No heavy borders. Focus ring is a soft glow.",
+      "classes": "bg-white/5 border-white/5 focus:border-opal-primary/50 focus:ring-1 focus:ring-opal-primary/50 rounded-xl p-6 text-base text-slate-200 placeholder:text-slate-500 resize-y min-h-[200px]"
+    },
+    "GenerateButton": {
+      "specs": "Full width. Pill shape or slightly rounded. Subtle shimmer animation. Gradient background.",
+      "classes": "w-full py-4 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-semibold text-lg shadow-neon transition-all duration-300 active:scale-[0.98]"
+    },
+    "ResultsTabs": {
+      "specs": "Shadcn Tabs component. Custom styling: Minimal underline or pill indicator. Content area has soft glass background.",
+      "overrides": {
+        "TabsList": "bg-white/5 p-1 rounded-lg",
+        "TabsTrigger": "data-[state=active]:bg-white/10 data-[state=active]:text-white text-slate-400 rounded-md"
+      }
+    }
+  },
+  "motion": {
+    "transitions": "transition-all duration-300 ease-out",
+    "micro_interactions": {
+      "hover": "translate-y-[-2px]",
+      "active": "scale-[0.98]",
+      "fade_in": "animate-in fade-in zoom-in-95 duration-500"
+    }
+  },
+  "assets": {
+    "icons": {
+      "library": "lucide-react",
+      "mapping": {
+        "upload": "UploadCloud",
+        "file": "FileText",
+        "magic": "Sparkles",
+        "copy": "Copy",
+        "download": "Download",
+        "check": "Check"
+      }
+    },
+    "images": []
+  },
+  "accessibility": {
+    "contrast": "Ensure text is slate-300 or lighter on dark backgrounds.",
+    "focus": "Visible focus rings (blue-500/50) for all interactive elements."
+  },
+  "universal_guidelines": [
+    "Dark Mode Only: Force dark mode classes.",
+    "No Gradients on Text: Keep text solid for readability.",
+    "Glassmorphism: Use backdrop-blur-xl sparingly (only on sticky headers or overlays).",
+    "Data Test IDs: Add data-testid to all interactive elements."
+  ],
+  "instructions_to_main_agent": [
+    "1. Update tailwind.config.js with the 'opal' colors and font families.",
+    "2. Add the Google Fonts import to index.css.",
+    "3. Set the body background to bg-opal-bg and text to text-slate-300.",
+    "4. Create the single-page layout in App.js (or create a new Home component).",
+    "5. Use Lucide icons for visuals.",
+    "6. Ensure the 'Generate' flow feels magical (use a loading state with a pulse effect).",
+    "7. Mock the backend API calls for V1 if the backend isn't ready, but structure the code to swap in the real API easily."
+  ]
+}
