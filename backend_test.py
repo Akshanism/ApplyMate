@@ -203,7 +203,7 @@ startxref
     def test_valid_pdf_upload(self):
         """Test API with valid PDF file and job description"""
         try:
-            files = {'resume': ('john_doe_resume.pdf', self.create_test_pdf_content(), 'application/pdf')}
+            files = {'resume': ('john_doe_resume.pdf', self.create_simple_pdf(), 'application/pdf')}
             data = {
                 'job_description': '''
 Senior Software Engineer - Full Stack
